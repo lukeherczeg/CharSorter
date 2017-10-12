@@ -22,22 +22,20 @@ public class CharSorter {
             //changed this
             Scanner newInput = new Scanner(System.in);
             int choice = -1;    // Set choice equal to a redundant value not being used
-            try
-            {
-                choice = newInput.nextInt();
-            }
+
+            try { choice = newInput.nextInt(); }
             catch (InputMismatchException wrong){/*see default of switch below*/}
 
             System.out.print("\n");
             switch (choice) {
                 case 1:
-                    alphabeticalSort(userLine);
+                    System.out.println(alphabeticalSort(userLine));
                     break;
                 case 2:
-                    frequencySort(userLine);
+                    System.out.println(frequencySort(userLine));
                     break;
                 case 3:
-                    charTypes(userLine);
+                    System.out.println(charTypes(userLine));
                     break;
                 case 4:
                     running = false;
@@ -48,21 +46,76 @@ public class CharSorter {
         }
     }
 
-    public static String alphabeticalSort(String a)
+    private static String alphabeticalSort(String a)
     {
-        String[] characters = new String[a.length()];
         char[] b = a.toCharArray();
+        String list = "";
+        int[] frequency = new int[b.length];
+        char temp;
 
-        return "";
+        for(int x = 1; x < b.length; x++)
+        {
+            for(int y = x; y > 0; y--)
+            {
+                if(b[y] > b[y-1])
+                {
+                    temp = b[y];
+                    b[y] = b[y-1];
+                    b[y-1] = temp;
+                }
+            }
+        }
+
+        for(int j = b.length-1; j >= 0; j--)
+        {
+            for(int i = b.length-1; i >= 0; i--)
+            {
+                if(b[j] == b[i])
+                {
+                    frequency[j]++;
+                }
+            }
+        }
+        for(int x = b.length-1; x >= 0; x--)
+            list += b[x] + " freq: " + frequency[x] + "-";
+
+        return removeRepeats(list);
+
     }
 
-    public static String frequencySort(String a)
+    private static String frequencySort(String a)
     {
         return "";
     }
 
-    public static String charTypes(String a)
+    private static String charTypes(String a)
     {
         return "";
+    }
+
+    private static String removeRepeats(String a)
+    {
+        String setWords[] = a.split("-");
+        String last = "";
+
+        for (int i = 0; i < setWords.length; i++)
+        {
+            for (int j = i + 1; j < setWords.length; j++)
+            {
+                if ((setWords[i].equals(setWords[j])) && i != j)
+                {
+                    setWords[i] = "";
+                }
+            }
+        }
+        for (int i = 0; i < setWords.length; i++)
+        {
+            if (setWords[i] != "")
+            {
+                last += (setWords[i] + "\n");
+            }
+
+        }
+        return last;
     }
 }
