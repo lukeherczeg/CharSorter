@@ -49,11 +49,11 @@ public class CharSorter {
     private static String alphabeticalSort(String a)
     {
         char[] b = a.toCharArray();
-        String list = "";
         int[] frequency = new int[b.length];
         char temp;
+        String list = "";
 
-        for(int x = 1; x < b.length; x++)
+        for(int x = 1; x < b.length; x++)  //Sorts the character array by ascii value
         {
             for(int y = x; y > 0; y--)
             {
@@ -74,12 +74,12 @@ public class CharSorter {
                 {
                     frequency[j]++;
                 }
-            }
-        }
+    }
+}
         for(int x = b.length-1; x >= 0; x--)
-            list += b[x] + " freq: " + frequency[x] + "-";
+                list += (b[x] + " freq: " + frequency[x] + "-");
 
-        return removeRepeats(list);
+                return removeRepeats(list);
 
     }
 
@@ -102,15 +102,15 @@ public class CharSorter {
         {
             for (int j = i + 1; j < setWords.length; j++)
             {
-                if ((setWords[i].equals(setWords[j])) && i != j)
+                if ((setWords[i].equals(setWords[j])) && (i != j))
                 {
                     setWords[i] = "";
                 }
             }
         }
-        for (int i = 0; i < setWords.length; i++)
+        for(int i = 0; i < setWords.length; i++)
         {
-            if (setWords[i] != "")
+            if (!setWords[i].equals(""))
             {
                 last += (setWords[i] + "\n");
             }
