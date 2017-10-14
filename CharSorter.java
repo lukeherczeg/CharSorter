@@ -1,3 +1,5 @@
+import com.sun.deploy.net.proxy.RemoveCommentReader;
+
 import java.util.*;
 
 public class CharSorter {
@@ -71,58 +73,26 @@ public class CharSorter {
 
         for(int x = characters.length-1; x >= 0; x--)
             list += (characters[x] + " freq: " + frequency[x] + "-");
-        
+
         int chartoNum = 0;
         int temp;
-        String list = "";
-        String[] statements = a.split(" ");
+        String[] statements = list.split("-");
 
 
-        //for(int i = 1; i < statements.length; i++)
-       // {
-      //      System.out.println((toNumber(statements[i].charAt(7))));
-               //if(Integer.parseInt(statements[i].substring(8,9)) < Integer.parseInt(statements[i-1].substring(8,9)))
-                //{
-                  //  temp = statements[i - 1].indexOf(8,9);
-                //}
-         //}
-
-
-        for(int y = 0; y < statements.length; y++)
-            list += (statements[y] + "\n");
-
-        return Integer.toString(toNumber(statements[3].charAt(7)));
-
-       /* char[] characters = a.toCharArray();
-        int[] frequency = new int[characters.length];
-        String list = "";
-        int temp;
-
-        //sortArray(characters);
-        determineFrequency(frequency, characters);
-
-        for(int x = 1; x < frequency.length; x++)  //Sorts the character array by number value
+        for(int i = 1; i < statements.length; i++)
         {
-            for(int y = x; y > 0; y--)
-            {
-                if(frequency[y] > frequency[y-1])
+               if((toNumber(statements[i].charAt(8))) < toNumber(statements[i-1].charAt(8)))
                 {
-                    temp = frequency[y];
-                    frequency[y] = frequency[y-1];
-                    frequency[y-1] = temp;
+                    statements[i] = statements[i-1];
                 }
-            }
         }
 
-        for(int x = 1; x < characters.length; x++)
-        {
-            for(int x = )
-        }
 
-        for(int x = characters.length-1; x >= 0; x--)
-            list += (characters[x] + " freq: " + frequency[x] + "-");
+        for(int y = 0; y <= statements.length; y++)
+            list += (statements[y] + "-");
 
-        return removeRepeats(list); */
+        return removeRepeats(list);
+
     }
 
     private static String charTypes(String a)
@@ -149,7 +119,7 @@ public class CharSorter {
         {
             if (!freqSplit[i].equals(""))
             {
-                last += (freqSplit[i] + "\n ");
+                last += (freqSplit[i] + "\n");
             }
 
         }
