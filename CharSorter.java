@@ -53,7 +53,7 @@ public class CharSorter {
         int[] frequency = new int[characters.length];
         String list = "";
 
-        sortArray(characters);
+        sortCharArray(characters);
         determineFrequency(frequency, characters);
 
         for(int x = characters.length-1; x >= 0; x--)
@@ -68,25 +68,14 @@ public class CharSorter {
         int[] frequency = new int[characters.length];
         String list = "";
 
-        sortArray(characters);
+        sortCharArray(characters);
         determineFrequency(frequency, characters);
 
         for(int x = characters.length-1; x >= 0; x--)
             list += (characters[x] + " freq: " + frequency[x] + "-");
 
-        int chartoNum = 0;
-        int temp;
         String[] statements = list.split("-");
-
-
-        for(int i = 1; i < statements.length; i++)
-        {
-               if((toNumber(statements[i].charAt(8))) < toNumber(statements[i-1].charAt(8)))
-                {
-                    statements[i] = statements[i-1];
-                }
-        }
-
+        sortStringArray(statements);
 
         for(int y = 0; y < statements.length; y++)
             list += (statements[y] + "-");
@@ -105,36 +94,29 @@ public class CharSorter {
         String freqSplit[] = a.split("-");
         String last = "";
 
-        for (int i = 0; i < freqSplit.length; i++)
-        {
-            for (int j = i + 1; j < freqSplit.length; j++)
-            {
-                if ((freqSplit[i].equals(freqSplit[j])) && (i != j))
-                {
+        for (int i = 0; i < freqSplit.length; i++) {
+            for (int j = i + 1; j < freqSplit.length; j++) {
+                if ((freqSplit[i].equals(freqSplit[j])) && (i != j)) {
                     freqSplit[i] = "";
                 }
             }
         }
-        for(int i = 0; i < freqSplit.length; i++)
-        {
-            if (!freqSplit[i].equals(""))
-            {
+
+        for(int i = 0; i < freqSplit.length; i++) {
+            if (!freqSplit[i].equals("")) {
                 last += (freqSplit[i] + "\n");
             }
-
         }
+
         return last;
     }
 
-    private static void sortArray(char[] a)
+    private static void sortCharArray(char[] a)
     {
         char temp;
-        for(int x = 1; x < a.length; x++)  //Sorts the character array by ascii value
-        {
-            for(int y = x; y > 0; y--)
-            {
-                if(a[y] > a[y-1])
-                {
+        for(int x = 1; x < a.length; x++) {  //Sorts the character array by ascii value
+            for(int y = x; y > 0; y--) {
+                if(a[y] > a[y-1]) {
                     temp = a[y];
                     a[y] = a[y-1];
                     a[y-1] = temp;
@@ -143,29 +125,38 @@ public class CharSorter {
         }
     }
 
+    private static void sortStringArray(String[] a)
+    {
+        String temp;
+        for(int x = 1; x < a.length; x++) {
+            for(int y = x; y > 0; y--) {
+                if((toNumber(a[x].charAt(8))) > toNumber(a[x-1].charAt(8))) {
+                    temp = a[y];
+                    a[y] = a[y-1];
+                    a[y-1] = temp;
+                }
+            }
+        }
+    }
 
     private static void determineFrequency(int[] a, char[] b)
     {
-        for(int j = b.length-1; j >= 0; j--)
-        {
-            for(int i = b.length-1; i >= 0; i--)
-            {
-                if(b[j] == b[i])
-                {
+        for(int j = b.length-1; j >= 0; j--) {
+            for(int i = b.length-1; i >= 0; i--) {
+                if(b[j] == b[i]) {
                     a[j]++;
                 }
             }
         }
     }
 
-
     private static int toNumber(char a)
     {
         int number = 0;
 
-        if (a < 58) {
+        if (a < 58)
             number = (int) a - (int) '0';
-        }
+
         return number;
     }
 }
