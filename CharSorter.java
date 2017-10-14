@@ -88,7 +88,7 @@ public class CharSorter {
         }
 
 
-        for(int y = 0; y <= statements.length; y++)
+        for(int y = 0; y < statements.length; y++)
             list += (statements[y] + "-");
 
         return removeRepeats(list);
