@@ -10,17 +10,17 @@ public class CharSorter {
 
         while (running) {
 
-            System.out.println("Please select the option you would like to see\n\n" +    // This is the menu
-                    "1. Display character frequencies alphabetically\n" +
-                    "2. Display sorted frequencies\n" +
-                    "3. Show types of character frequencies\n" +
-                    "4. Exit ");
+            System.out.println( "Please select the option you would like to see\n\n" +        // This is the menu
+                                "1. Display character frequencies alphabetically\n" +
+                                "2. Display sorted frequencies\n" +
+                                "3. Show types of character frequencies\n" +
+                                "4. Exit " );
 
             Scanner newInput = new Scanner(System.in);
-            int choice = -1;    // Set choice equal to a redundant value not being used
+            int choice = -1;                                    // Set choice equal to a redundant value not being used
 
-            try {
-                choice = newInput.nextInt();
+            try {                                 // Simple try-catch to catch wrong input and keep the program running
+                choice = newInput.nextInt();      // going forward to the switch.
             } catch (InputMismatchException wrong) {/*see default of switch below*/}
 
             switch (choice) {
@@ -28,7 +28,7 @@ public class CharSorter {
                     System.out.println(alphabeticalSort(userLine));
                     break;
                 case 2:
-                    System.out.println("The sorted by frequency characters are:\n" + frequencySort(userLine));
+                    System.out.println("The sorted by frequency characters are:\n\n" + frequencySort(userLine));
                     break;
                 case 3:
                     System.out.println(charTypes(userLine));
