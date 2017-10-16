@@ -7,7 +7,6 @@ public class CharSorter {
         Scanner input = new Scanner(System.in);
         String userLine = input.nextLine();
         System.out.print("\n");
-        // ËÏö
         while (running) {
             System.out.println( "Please select the option you would like to see\n\n" + //This is the menu
                                 "1. Display character frequencies alphabetically\n" +
@@ -22,10 +21,10 @@ public class CharSorter {
             catch (InputMismatchException wrong)                    //going forward to the switch.
                 {/*see default of switch below*/}
 
-            switch (choice) {                                      //Switch statement; depending on input, the
-                case 1:                                            //system will print the userLine after applying a method to it
-                    System.out.println(alphabeticalSort(userLine));//In a while loop with boolean running, set false if
-                    break;                                         //and only if 4, or Exit, is chosen.
+            switch (choice) {                                       //Switch statement; depending on input, the
+                case 1:                                             //system will print the userLine after applying a method to it
+                    System.out.println(alphabeticalSort(userLine)); //In a while loop with boolean running, set false if
+                    break;                                          //and only if 4, or Exit, is chosen.
                 case 2:
                     System.out.println("The sorted by frequency characters are:\n\n" + frequencySort(userLine));
                     break;
@@ -44,6 +43,52 @@ public class CharSorter {
     }
 
     private static String alphabeticalSort(String a) {
+        String[] statements = makeConcatenatedString(a);
+        String list = "";
+
+        for (String y: statements)                          //Loop through char array, concatenating a string but adding
+            list += (y + "\n");                             //\n so that the final list will be formatted correctly
+
+        return list;
+    }
+
+    private static String frequencySort(String a) {
+        String[] statements = makeConcatenatedString(a);
+        String list = "";
+
+        sortStringArray(statements);                        //Differs from alphabetical sort here, see sortStringArray
+
+        for (String y: statements)
+            list += (y + "\n");
+
+        return list;
+    }
+
+    private static String charTypes(String a) {
+        char[] characters = a.toCharArray();
+        int textualCount = 0, numericalCount = 0, wSpaceCount = 0, symbolCount = 0;
+
+        for (int i = 0; i < characters.length; i++) {
+            if (((characters[i] > 64) && (characters[i] < 91)) ||       //If the character in question is within the bounds
+                ((characters[i] > 96) && (characters[i] < 123)))        //of uppercase and lowercase letters, add to textualCount.
+                textualCount++;
+            else if (((characters[i] > 47) && (characters[i] < 58)))    //If the character is within bounds of numbers,
+                numericalCount++;                                       //add to numericalCount.
+            else if (characters[i] == 32)                               //If the character has the ascii value of space,
+                wSpaceCount++;                                          //add to wSpaceCount.
+            else
+                symbolCount++;                                          //Everything else will be a symbol.
+        }
+
+        return ("Textual Character count: " + textualCount + "\n" +      //Return a string with all values accounted for.
+                "Numerical Character count: " + numericalCount + "\n" +
+                "WhiteSpace Character count: " + wSpaceCount + "\n" +
+                "Symbol Character count: " + symbolCount + "\n");
+    }
+
+
+    public static String[] makeConcatenatedString(String a)
+    {
         char[] characters = a.toCharArray();
         int[] frequency = new int[characters.length];
         String list = "";
@@ -55,64 +100,11 @@ public class CharSorter {
             list += (characters[x] + " freq: " + frequency[x] + "--"); //Add double dashes to use split function and
                                                                        //and make a string array to loop through
         list = removeRepeats(list);       //See removeRepeats method
-
-        String[] statements = list.split("--");        //Split at double dashes, won't affect code if -- are used, since
-        list = "";   //Reset list                      //the program only analyzes one character at a time.
-
-        for (int y = 0; y < statements.length; y++)          //Loop through new char array, concatenating a string but adding
-            list += (statements[y] + "\n");                  //\n so that the final list will be formatted correctly
-
-        return list;
+        String[] statements = list.split("--");          //Split at double dashes, won't affect code if -- are used, since
+                                                               //the program only analyzes one character at a time.
+        return statements;
     }
 
-    private static String frequencySort(String a) {                     //Does the same thing as alphabetical sort
-        char[] characters = a.toCharArray();                            //up until
-        int[] frequency = new int[characters.length];
-        String list = "";
-
-        sortCharArray(characters);
-        determineFrequency(frequency, characters);
-
-        for (int x = characters.length - 1; x >= 0; x--)
-            list += (characters[x] + " freq: " + frequency[x] + "--");
-
-        list = removeRepeats(list);
-
-        String[] statements = list.split("--");
-        list = "";
-
-        sortStringArray(statements);
-
-        for (int y = 0; y < statements.length; y++)
-            list += (statements[y] + "\n");
-
-        return list;
-
-    }
-
-    private static String charTypes(String a) {
-        char[] characters = a.toCharArray();
-        String list = "";
-        int textualCount = 0, numericalCount = 0, wSpaceCount = 0, symbolCount = 0;
-
-        for (int i = 0; i < characters.length; i++) {
-            if ((characters[i] > 64 && characters[i] < 91) || (characters[i] > 96 && characters[i] < 123))
-                textualCount++;
-            else if ((characters[i] > 47 && characters[i] < 58))
-                numericalCount++;
-            else if (characters[i] == 32)
-                wSpaceCount++;
-            else
-                symbolCount++;
-        }
-
-        list = "Textual Character count: " + textualCount + "\n" +
-                "Numerical Character count: " + numericalCount + "\n" +
-                "WhiteSpace Character count: " + wSpaceCount + "\n" +
-                "Symbol Character count: " + symbolCount + "\n";
-
-        return list;
-    }
 
     private static String removeRepeats(String a) {
         String freqSplit[] = a.split("--");
@@ -184,23 +176,4 @@ public class CharSorter {
         }
     }
 
-    public static String[] prepareConcatenatedString(String a)
-    {
-        char[] characters = a.toCharArray();
-        int[] frequency = new int[characters.length];
-        String list = "";
-
-        sortCharArray(characters);                                     //See method sortCharArray
-        determineFrequency(frequency, characters);                     //See method determineFrequency
-
-        for (int x = characters.length - 1; x >= 0; x--)               //Loop through char array, make concatenated string
-            list += (characters[x] + " freq: " + frequency[x] + "--"); //Add double dashes to use split function and
-        //and make a string array to loop through
-        list = removeRepeats(list);       //See removeRepeats method
-
-        String[] statements = list.split("--");        //Split at double dashes, won't affect code if -- are used, since
-        //list = "";         //Reset list                      //the program only analyzes one character at a time.
-
-        return statements;
-    }
 }
