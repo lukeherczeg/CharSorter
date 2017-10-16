@@ -9,17 +9,17 @@ public class CharSorter {
         System.out.print("\n");
         while (running) {
             System.out.println( "Please select the option you would like to see\n\n" + //This is the menu
-                                "1. Display character frequencies alphabetically\n" +
-                                "2. Display sorted frequencies\n" +
-                                "3. Show types of character frequencies\n" +
-                                "4. Exit " );
+                    "1. Display character frequencies alphabetically\n" +
+                    "2. Display sorted frequencies\n" +
+                    "3. Show types of character frequencies\n" +
+                    "4. Exit " );
 
             Scanner newInput = new Scanner(System.in);
-            int choice = -1;                                        //Set choice equal to a redundant value not being used
+            int choice = 0;                                         //Set choice equal to a redundant value not being used
 
             try {choice = newInput.nextInt();}                      //Simple try-catch to catch wrong input and keep the program running
             catch (InputMismatchException wrong)                    //going forward to the switch.
-                {/*see default of switch below*/}
+            {/*see default of switch below*/}
 
             switch (choice) {                                       //Switch statement; depending on input, the
                 case 1:                                             //system will print the userLine after applying a method to it
@@ -36,7 +36,7 @@ public class CharSorter {
                     System.out.println("\nCharacter Sorter Exited Successfully");
                     break;
                 default:                                           // default will be the invalid input
-                    System.out.println("Error, bad input, please enter a number 1-4\n");
+                    System.out.println("Error, bad input, please enter a number 1-4");
             }
             System.out.print("\n");
         }
@@ -56,9 +56,9 @@ public class CharSorter {
         String[] statements = makeConcatenatedString(a);
         String list = "";
 
-        sortStringArray(statements);                        //Differs from alphabetical sort here, see sortStringArray
+        sortStringArray(statements);                        //Differs from alphabetical sort here, see sortStringArray.
 
-        for (String y: statements)
+        for (String y: statements)                          //Simply make a concatenated final String that will be used.
             list += (y + "\n");
 
         return list;
@@ -97,31 +97,27 @@ public class CharSorter {
         determineFrequency(frequency, characters);                     //See method determineFrequency
 
         for (int x = characters.length - 1; x >= 0; x--)               //Loop through char array, make concatenated string
-            list += (characters[x] + " freq: " + frequency[x] + "--"); //Add double dashes to use split function and
-                                                                       //and make a string array to loop through
-        list = removeRepeats(list);       //See removeRepeats method
-        String[] statements = list.split("--");          //Split at double dashes, won't affect code if -- are used, since
-                                                               //the program only analyzes one character at a time.
-        return statements;
+            list += (characters[x] + " freq: " + frequency[x] + "--"); //Add double dashes to use split function and make a string array to loop through
+        list = removeRepeats(list);                                    //See removeRepeats method
+        String[] statements = list.split("--");           //Split at double dashes, won't affect code if -- are used, since
+        return statements;                                      //the program only analyzes one character at a time.
     }
 
 
     private static String removeRepeats(String a) {
-        String freqSplit[] = a.split("--");
-        String last = "";
-
-        for (int i = 0; i < freqSplit.length; i++) {
-            for (int j = i + 1; j < freqSplit.length; j++) {
-                if ((freqSplit[i].equals(freqSplit[j])) && (i != j))
-                    freqSplit[i] = "";
-            }
-        }
-
-        for (int i = 0; i < freqSplit.length; i++) {
-            if (!freqSplit[i].equals("") && (i < freqSplit.length - 1))
-                last += (freqSplit[i] + "--");
+        String stringArr[] = a.split("--");
+        String last = "";                                            //Starts by splitting the string into a String array,
+        for (int i = 0; i < stringArr.length; i++) {                 //then, with nested loops, compares every String character
+            for (int j = i + 1; j < stringArr.length; j++) {         //in stringArr with the one at one index ahead of the current,
+                if ((stringArr[i].equals(stringArr[j])) && (i != j)) //and checks to make sure the indexes aren't the same.
+                    stringArr[i] = "";                               //If there are duplicates, it replaces them with blanks.
+            }                                                        //The second loop checks for blank spaces in the array,
+        }                                                            //and if there isn't one at the position, given it isn't the last
+        for (int i = 0; i < stringArr.length; i++) {                 //position in the array, it adds that string to the array.
+            if (!stringArr[i].equals("") && (i < stringArr.length - 1))
+                last += (stringArr[i] + "--");                       //The last needs to be without "--" because it will mess up splitting.
             else
-                last += freqSplit[i];
+                last += stringArr[i];
         }
 
         return last;
@@ -141,24 +137,25 @@ public class CharSorter {
     }
 
     private static void sortStringArray(String[] a)
-    {                                                     //See below, discusses the method
-        String temp;
-        for (int x = 1; x < a.length; x++) {
-            for (int y = x; y > 0; y--) {
-                if ((toNumber(a[y].substring(8))) > toNumber(a[y-1].substring(8))) {
-                    temp = a[y];                          //For each position of the array, loop through all positions,
-                    a[y] = a[y - 1];                      //comparing the last integer of the string (which is always 8) ie; [y] = % freq 554; [y-1] = $ freq 445;
-                    a[y - 1] = temp;                      //554, 445, would be the frequencies respectively, so we would then say 554 > 445,
-                }                                         //and would use a temporary string to hold the value in memory while
-            }                                             //swapping the entire strings (not just the value), so that it will
-        }                                                 //be properly sorted. NOTE: Using ToNumber, I convert the charAt(8) to an int.
+    {
+        String temp;                                      //For each position of the array, loop through all positions,
+        for (int x = 1; x < a.length; x++) {              //comparing the last integer of the string (which always begins at index 8)
+            for (int y = x; y > 0; y--) {                 //ie; [y] = % freq 554; [y-1] = $ freq 445; 554, 445, would be the frequencies
+                if ((toNumber(a[y].substring(8))) >       //respectively, so we would then say 554 > 445, and would use a temporary
+                        toNumber(a[y-1].substring(8))) {     //string to hold the value in memory while swapping the entire strings
+                    temp = a[y];                          //(not just the value), so that it will be properly sorted.
+                    a[y] = a[y - 1];
+                    a[y - 1] = temp;                      // NOTE: Using ToNumber, I convert the substring
+                }                                         // from 8 to the end of the string to an int to compare the numbers.
+            }
+        }
     }
 
     private static int toNumber(String a)
     {                                                     //For this method, I first turn the string into a charArray,
         String concatNumber = "";                         //then given that the character has a numerical ascii value,
         char[] b = a.toCharArray();                       //the number will be the difference of the character value of
-                                                          //the number and the character value of 0.
+        //the number and the character value of 0.
         for (int i = 0; i < b.length; i++) {              //Casting characters as ints, I am able to save and add the
             if (b[i] < 58)                                //integer from the beginning of its position to the end on a
                 concatNumber += (int) b[i] - (int) '0';   //concatenated string, which I then parse into an int and return.
@@ -175,5 +172,4 @@ public class CharSorter {
             }
         }
     }
-
 }
